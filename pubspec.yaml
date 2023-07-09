@@ -1,0 +1,27 @@
+name: rattata_vision
+description: A tool for translating Japanese text using Google's Vision API
+
+publish_to: 'none'
+
+version: 0.0.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_vision: ^1.0.7
+  window_manager: ^0.3.5
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
