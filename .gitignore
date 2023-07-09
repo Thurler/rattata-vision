@@ -1,6 +1,8 @@
 __pycache__/*
 *.dat
 applicationlog.txt
+credentials.json
+lastException.txt
 settings.json
 .flutter-plugins-dependencies
 
