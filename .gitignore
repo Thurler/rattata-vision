@@ -3,6 +3,7 @@ __pycache__/*
 applicationlog.txt
 credentials.json
 lastException.txt
+rattata.bmp
 settings.json
 .flutter-plugins-dependencies
 
