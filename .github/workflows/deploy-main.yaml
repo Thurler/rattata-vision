@@ -72,7 +72,7 @@ jobs:
       - name: Archive Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: thlaby2-save-editor-windows
+          name: rattata-vision-windows
           path: build/windows/runner/Release/*
 
   build-linux:
@@ -110,5 +110,5 @@ jobs:
       - name: Archive Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: thlaby2-save-editor-linux
+          name: rattata-vision-linux
           path: build/linux/x64/release/bundle/*
