@@ -25,7 +25,11 @@ class MainState extends CommonState<MainWidget> with WindowListener {
   static const MethodChannel subwindowMethodChannel = MethodChannel(
     'subwindow_channel',
   );
-  static const String filename = '/tmp/rattata.png';
+  static final String filename = Platform.isLinux
+    ? '/tmp/rattata.png'
+    : Platform.isWindows
+      ? './rattata.bmp'
+      : '';
 
   Settings _settings = Settings.fromDefault();
   Timer? _timer;
@@ -83,8 +87,10 @@ class MainState extends CommonState<MainWidget> with WindowListener {
           filename,
         ],
       );
+    } else if (Platform.isWindows) {
+      await subwindowMethodChannel.invokeMethod('makeScreenshot');
+      return ProcessResult(0, 0, '', '');
     } else {
-      // TODO(thurler): Make windows work
       throw const UnsupportedPlatformException();
     }
   }
@@ -112,7 +118,7 @@ class MainState extends CommonState<MainWidget> with WindowListener {
     } on UnsupportedPlatformException {
       await handleException(
         dialogTitle: 'This platform is not currently supported!',
-        dialogBody: 'The software only supports Linux systems.',
+        dialogBody: 'The software only supports Linux and Windows systems.',
       );
       _timer?.cancel();
       return;
