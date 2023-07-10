@@ -3,7 +3,7 @@ description: A tool for translating Japanese text using Google's Vision API
 
 publish_to: 'none'
 
-version: 0.0.0
+version: 1.0.0
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
