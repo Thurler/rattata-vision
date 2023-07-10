@@ -19,7 +19,7 @@ void main() {
   // Set minimum width and height to stop my responsive nightmares
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Rattata Vision');
-    setWindowMinSize(const Size(800, 400));
+    setWindowMinSize(const Size(600, 400));
   }
   runApp(const MyApp());
 }
