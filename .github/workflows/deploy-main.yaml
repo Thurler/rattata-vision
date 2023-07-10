@@ -1,0 +1,114 @@
+name: Main CI
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  make-tag:
+    name: Add Tag and Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Determine Tag
+        run: |
+          echo "RELEASE_TAG=$(cat pubspec.yaml | grep version | awk -F ' ' '{print $2}')" >> $GITHUB_ENV
+
+      - name: Determine Tag Message
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "TAG_MESSAGE<<$EOF" >> $GITHUB_ENV
+          cat latest-notes.txt >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: actions/github-script@v6
+        with:
+          github-token: "${{ secrets.RELEASE_TOKEN }}"
+          script: |
+            try {
+              const response = await github.rest.repos.createRelease({
+                tag_name: process.env.RELEASE_TAG,
+                name: process.env.RELEASE_TAG,
+                body: process.env.TAG_MESSAGE,
+                draft: false,
+                prerelease: false,
+                generate_release_notes: true,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
+
+  build-windows:
+    name: Windows Native Build
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'
+          cache: true
+          cache-key: 'flutter-3-7-12-windows'
+          cache-path: ${{ runner.tool_cache }}/flutter/windows-3-7-12
+
+      - name: Flutter Config
+        run: flutter config --enable-windows-desktop --no-analytics
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Flutter Build Windows Native
+        run: flutter build windows --release
+
+      - name: Archive Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: thlaby2-save-editor-windows
+          path: build/windows/runner/Release/*
+
+  build-linux:
+    name: Linux Native Build
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update -y
+          sudo apt install -y clang cmake curl libgtk-3-dev ninja-build pkg-config scrot unzip xvfb
+
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'
+          cache: true
+          cache-key: 'flutter-3-7-12-linux'
+          cache-path: ${{ runner.tool_cache }}/flutter/linux-3-7-12
+
+      - name: Flutter Config
+        run: flutter config --enable-linux-desktop --no-analytics
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Flutter Build Linux Native
+        run: flutter build linux --release
+
+      - name: Archive Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: thlaby2-save-editor-linux
+          path: build/linux/x64/release/bundle/*
