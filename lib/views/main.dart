@@ -224,7 +224,7 @@ class MainState extends CommonState<MainWidget> with WindowListener {
   @override
   Widget build(BuildContext context) {
     return CommonScaffold(
-      title: 'Rattata Vision - v1.0.0',
+      title: 'Rattata Vision - v1.0.1',
       settingsLink: _navigateToSettings,
       children: <Widget>[
         SpacedRow(
