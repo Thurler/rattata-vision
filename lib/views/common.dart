@@ -31,9 +31,9 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
     return handleException(
       dialogTitle: 'An unexpected error occured!',
       dialogBody: 'Please report this as an issue at the link below. Please '
-        'include the "lastException.txt" file that should be next to your '
-        '.exe file when submitting the issue:\n'
-        'https://github.com/Thurler/rattata-vision/issues',
+          'include the "lastException.txt" file that should be next to your '
+          '.exe file when submitting the issue:\n'
+          'https://github.com/Thurler/rattata-vision/issues',
       exception: e,
       trace: s,
     );

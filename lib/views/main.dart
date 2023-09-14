@@ -108,9 +108,9 @@ class MainState extends CommonState<MainWidget> with WindowListener {
         await handleException(
           dialogTitle: 'An error occured when taking a screenshot!',
           dialogBody: 'Make sure you have installed scrot and that it works. '
-                      'Automatic refreshing has been turned off to prevent '
-                      'further errors.'
-                      '\n\nSTDOUT: ${result.stdout}\nSTDERR: ${result.stderr}',
+              'Automatic refreshing has been turned off to prevent '
+              'further errors.'
+              '\n\nSTDOUT: ${result.stdout}\nSTDERR: ${result.stderr}',
         );
         _timer?.cancel();
         return;
@@ -126,8 +126,8 @@ class MainState extends CommonState<MainWidget> with WindowListener {
       await handleException(
         dialogTitle: 'An exception occured when taking a screenshot!',
         dialogBody: 'Make sure you have installed scrot and that it works. '
-                    'Automatic refreshing has been turned off to prevent '
-                    'further errors.',
+            'Automatic refreshing has been turned off to prevent '
+            'further errors.',
         exception: e,
         trace: s,
       );
@@ -146,7 +146,7 @@ class MainState extends CommonState<MainWidget> with WindowListener {
     }
     // Precache the new image to avoid flickering when rebuilding state
     await precacheImage(_image!, context);
-    setState((){});
+    setState(() {});
   }
 
   Future<void> _recognizeText() async {
@@ -196,7 +196,7 @@ class MainState extends CommonState<MainWidget> with WindowListener {
     }
     String finalText = texts.join('\n');
     await Clipboard.setData(ClipboardData(text: finalText));
-    setState((){
+    setState(() {
       _recognizedText = finalText;
     });
   }

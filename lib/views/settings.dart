@@ -110,7 +110,7 @@ class SettingsState extends CommonState<SettingsWidget> {
     return handleException(
       dialogTitle: 'An error occured when saving the settings!',
       dialogBody: 'Make sure your user has permission to write a file in '
-        'the folder this app is in.',
+          'the folder this app is in.',
     );
   }
 
@@ -158,14 +158,14 @@ class SettingsState extends CommonState<SettingsWidget> {
     _refreshRateFormKey.currentState!.resetInitialValue();
     _credentialsFormKey.currentState!.resetInitialValue();
     _preferredLanguageFormKey.currentState!.resetInitialValue();
-    setState((){});
+    setState(() {});
   }
 
   Future<void> _changeRefreshRate(String? chosen) async {
     if (chosen == null) {
       return;
     }
-    setState((){});
+    setState(() {});
   }
 
   @override
@@ -183,7 +183,7 @@ class SettingsState extends CommonState<SettingsWidget> {
       enabled: true,
       title: 'Refresh Rate',
       subtitle: 'Specifies how often Rattata updates the live preview\nCPU '
-                'and disc usage might go up considerably at higher settings',
+          'and disc usage might go up considerably at higher settings',
       hintText: 'Select a refresh rate',
       options: RefreshRate.values.map(
         (RefreshRate r) => r.dropdownText,
@@ -196,10 +196,10 @@ class SettingsState extends CommonState<SettingsWidget> {
       enabled: true,
       title: 'JSON credentials path',
       subtitle: "File path for Google API's JSON credentials\nBoth absolute "
-                'and relative paths are compatible',
+          'and relative paths are compatible',
       hintText: 'Please enter the file location',
       initialValue: _settings.credentialsPath,
-      onValueChanged: (String? v) => setState((){}),
+      onValueChanged: (String? v) => setState(() {}),
       validationCallback: _validateJsonFileExists,
       key: _credentialsFormKey,
     );
@@ -207,10 +207,10 @@ class SettingsState extends CommonState<SettingsWidget> {
       enabled: true,
       title: 'Language hint',
       subtitle: "Specify a hint to Google's API telling it what language the "
-                'content is in\nLeave blank for automatic language detection',
+          'content is in\nLeave blank for automatic language detection',
       hintText: 'Example: "ja" for Japanese, "en" for English',
       initialValue: _settings.preferredLanguage,
-      onValueChanged: (String? v) => setState((){}),
+      onValueChanged: (String? v) => setState(() {}),
       key: _preferredLanguageFormKey,
     );
   }
