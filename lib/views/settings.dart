@@ -59,10 +59,25 @@ class Settings {
     };
     return json.encode(result);
   }
+
+  bool get hasValidCredentials {
+    File target = File(credentialsPath);
+    if (!target.existsSync()) {
+      return false;
+    }
+    try {
+      json.decode(target.readAsStringSync());
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 }
 
 class SettingsWidget extends StatefulWidget {
-  const SettingsWidget({super.key});
+  final bool poppable;
+
+  const SettingsWidget({this.poppable = true, super.key});
 
   @override
   State<SettingsWidget> createState() => SettingsState();
@@ -131,6 +146,9 @@ class SettingsState extends CommonState<SettingsWidget> {
   }
 
   Future<bool> _checkChangesAndConfirm() async {
+    if (!widget.poppable && (_hasErrors || _hasChanges)) {
+      return false;
+    }
     if (!_hasChanges) {
       return true;
     }

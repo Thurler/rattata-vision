@@ -37,11 +37,11 @@ class MainState extends CommonState<MainWidget> with WindowListener {
   bool _showSubwindow = true;
   String _recognizedText = '';
 
-  Future<void> _navigateToSettings() async {
+  Future<void> _navigateToSettings({bool poppable = true}) async {
     _timer?.cancel();
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const SettingsWidget(),
+        builder: (BuildContext context) => SettingsWidget(poppable: poppable),
       ),
     );
     _startImageRefresh();
@@ -55,6 +55,11 @@ class MainState extends CommonState<MainWidget> with WindowListener {
       }
     } catch (e) {
       // If we fail to load the settings file, keep going with current settings
+    }
+    // Try to open the credentials file - if we fail, automatically navigate to
+    // settings screen
+    if (!_settings.hasValidCredentials) {
+      return unawaited(_navigateToSettings(poppable: false));
     }
     if (_settings.refreshRate != RefreshRate.manual) {
       _timer = Timer.periodic(
@@ -212,7 +217,9 @@ class MainState extends CommonState<MainWidget> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     unawaited(windowManager.setPreventClose(true));
-    _startImageRefresh();
+    WidgetsBinding.instance.addPostFrameCallback((Duration d) {
+      _startImageRefresh();
+    });
   }
 
   @override
