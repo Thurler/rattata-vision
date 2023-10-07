@@ -1,7 +1,4 @@
 Release Notes
 =============
 
-- Integrated with Google Vision API for text recognition
-- Take screenshots programatically and periodically for API preview
-- Create a secondary window to control image boundaries
-- Windows and Linux support
+- Added automatic redirect to settings in case of invalid credentials json
